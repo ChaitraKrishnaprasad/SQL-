@@ -1,0 +1,123 @@
+-- Use the database
+USE testing;
+
+show tables;
+
+-- Drop tables if they exist (for clean re-creation)
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS customer12;
+
+-- Step 1: Create the customer12 table
+CREATE TABLE customer12 (
+  id INT AUTO_INCREMENT NOT NULL,
+  names VARCHAR(300) NOT NULL,
+  address VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+-- Step 2: Insert customer records
+INSERT INTO customer12 (names, address) 
+VALUES 
+  ('A1', 'Bangalore'), 
+  ('A2', 'Mysore'), 
+  ('A3', 'Shimoga'), 
+  ('A4', 'Mangalore'), 
+  ('A5', 'Bangalore');
+
+-- Step 3: Create the orders table
+CREATE TABLE orderss (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  cust_id INT(11) NOT NULL,
+  order_no VARCHAR(255) NOT NULL,
+  order_date DATETIME NOT NULL,
+  PRIMARY KEY(id)
+  );
+
+-- Step 4: Insert order records with valid cust_id values (1 to 5)
+INSERT INTO orderss (cust_id, order_no, order_date) 
+VALUES 
+  (1, 'TA101', CURRENT_TIMESTAMP),
+  (2, 'TA103', CURRENT_TIMESTAMP),
+  (3, 'TA104', CURRENT_TIMESTAMP),
+  (4, 'TA105', CURRENT_TIMESTAMP),
+  (5, 'TA106', CURRENT_TIMESTAMP);
+  
+  UPDATE orders SET cust_id = 112 where cust_id = 1;
+  UPDATE orders SET cust_id = 143 where cust_id = 2;
+  UPDATE orders SET cust_id = 345 where cust_id = 3;
+  UPDATE orders set cust_id = 212 where cust_id = 4;
+  UPDATE orders set cust_id = 563 where cust_id = 5;
+
+-- Step 5: View the data
+SELECT * FROM customer12;
+SELECT * FROM orders;
+
+ALTER TABLE orders  ADD CONSTRAINT order_customer_fk FOREIGN KEY (cust_id) REFERENCES customer12(id);
+
+Create TABLE Product (
+  id int(11) not null Auto_increment,
+  name varchar(255),
+  price bigint,
+  primary key(id)
+);
+
+
+insert into Product (name, price) values('Python','10000'),('Java','20000'),('Selenium','5000'),('API','10000'),('SQL','23466'),
+('DB','10040');
+
+select * from Product;
+
+CREATE TABLE order_item (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    order_id INT(11) NOT NULL,
+    product_id INT(11) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+    
+    
+ALTER TABLE order_item add constraint order_item_product_fk Foreign key(product_id) references product(id);
+
+Alter table ;
+
+select * from order_item;
+
+describe order_item;
+
+Alter table order_item add column price decimal(5,2);
+alter table order_item add column quality int(11); 
+update  order_item SET price = 300.00, quality = 2 where order_id = 1;
+update order_item set price=65.23, quality =1 where order_id= 2;
+update order_item set price=1765.34, quality= 1 where order_id= 3;
+update order_item set price = 345.23, quality =3 where order_id= 3;
+
+
+select order_item.order_id, sum(price*quality) as amount_per_order from order_item group by order_id;
+
+
+select * from customer12;
+#select * from 
+
+select customer12.id as customer_id, customer12.names as customer_name, customer12.address as customer_address from customer12
+join (
+select order_item.order_id, sum(price * quality) as amount_per_order from order_item group by order_id
+);
+
+
+#Inner Join
+
+SELECT customer12.id AS customer_id, 
+    customer12.names AS customer_name, 
+    customer12.address AS customer_address,
+    sub.amount_per_order
+FROM customer12
+JOIN orders ON customer12.id = orders.cust_id
+JOIN (
+    SELECT order_item.order_id, SUM(price * quality) AS amount_per_order 
+    FROM order_item 
+    GROUP BY order_id;
+    
+ #Self Join
+ 
+ select a.names as cust_name1, b.names as cust_names2, A.id, A.address from customer12 A, customer12 B where A.id <> B.id And A.address= B.address;
+

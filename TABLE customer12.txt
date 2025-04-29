@@ -1,0 +1,34 @@
+use testing;
+
+CREATE TABLE `customer12` ( 
+  `id` INT AUTO_INCREMENT NOT NULL,
+  `names` VARCHAR(300)not NULL,
+  `address` VARCHAR(1000) not NULL,
+   PRIMARY KEY (`id`)
+);
+
+Insert into customer12 (names, address) values ('A1', 'Bangalore'), ('A2', 'Mysore'), ('A3', 'Shimoga'), ('A4', 'Mangalore'), ('A5', 'Bangalore');
+
+select * from customer12;
+
+describe Customer12;
+
+
+ALTER TABLE Customer modify Column name varchar(300); -- modified the storage
+ALTER Table Customer rename column name to names; -- rename the coloumn
+Alter table customer drop column name; -- removing the coloumn from TABLE
+Alter table customer add column (namess text(100) not null); -- adding coloumn to the TABLE
+alter TABLE customer drop column namess; -- removed namess coloumn which i added one min before
+
+Create TABLE Orders (
+  id int(11) not null Auto_increment,
+  cust_id int(11) not null,
+  order_no varchar(255) not null,
+  order_date datetime not null,
+  primary key(id)
+);
+
+select * from orders;
+
+insert into orders(cust_id,order_no,order_date) values (1, 'TA101', current_timestamp),(2, 'TA103', current_timestamp),
+(3, 'TA104', current_timestamp),(4, 'TA105', current_timestamp),(6, 'TA106', current_timestamp);

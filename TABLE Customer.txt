@@ -1,0 +1,25 @@
+use chaitradb;
+use testing;
+
+
+Create TABLE Customer (
+  id int(11) not null Auto_increment,
+  name varchar(255),
+  address varchar(1000),
+  primary key(id)
+);
+
+Insert into Customer (name, address) values ('A1', 'Bangalore'), ('A2', 'Mysore'), ('A3', 'Shimoga'), ('A4', 'Mangalore'), ('A5', 'Bangalore');
+
+select * from Customer;
+
+describe Customer;
+
+
+ALTER TABLE Customer modify Column name varchar(300); -- modified the storage
+ALTER Table Customer rename column name to names; -- rename the coloumn
+Alter table customer drop column name; -- removing the coloumn from TABLE
+Alter table customer add column (namess text(100) not null); -- adding coloumn to the TABLE
+alter TABLE customer drop column namess; -- removed namess coloumn which i added one min before
+
+select Customer.id as customer_id, customer.name, orders.id as orders.id

@@ -1,0 +1,150 @@
+-- Step 1: Use the database
+USE testing;
+
+-- Step 2: Drop tables if they exist (for fresh creation)
+DROP TABLE IF EXISTS order_item;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS customer12;
+DROP TABLE IF EXISTS product;
+
+-- Step 3: Create customer12 table
+CREATE TABLE customer12 (
+  id INT AUTO_INCREMENT NOT NULL,
+  names VARCHAR(300) NOT NULL,
+  address VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+-- Step 4: Insert records into customer12
+INSERT INTO customer12 (names, address) 
+VALUES 
+  ('A1', 'Bangalore'), 
+  ('A2', 'Mysore'), 
+  ('A3', 'Shimoga'), 
+  ('A4', 'Mangalore'), 
+  ('A5', 'Bangalore');
+
+-- Step 5: Create orders table
+CREATE TABLE orders (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  cust_id INT(11) NOT NULL,
+  order_no VARCHAR(255) NOT NULL,
+  order_date DATETIME NOT NULL,
+  PRIMARY KEY(id),
+  FOREIGN KEY (cust_id) REFERENCES customer12(id)
+);
+
+-- Step 6: Insert records into orders
+INSERT INTO orders (cust_id, order_no, order_date) 
+VALUES 
+  (1, 'TA101', CURRENT_TIMESTAMP),
+  (2, 'TA103', CURRENT_TIMESTAMP),
+  (3, 'TA104', CURRENT_TIMESTAMP),
+  (4, 'TA105', CURRENT_TIMESTAMP),
+  (5, 'TA106', CURRENT_TIMESTAMP);
+  
+  
+
+-- Step 7: Create product table
+CREATE TABLE product (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255),
+  price BIGINT,
+  PRIMARY KEY(id)
+);
+
+-- Step 8: Insert records into product
+INSERT INTO product (name, price) 
+VALUES 
+  ('Python', 10000),
+  ('Java', 20000),
+  ('Selenium', 5000),
+  ('API', 10000),
+  ('SQL', 23466),
+  ('DB', 10040);
+
+-- Step 9: Create order_item table
+CREATE TABLE order_item (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  order_id INT(11) NOT NULL,
+  product_id INT(11) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+-- Step 10: Optional - Insert sample order_item data
+INSERT INTO order_item (order_id, product_id) 
+VALUES 
+  (1, 1),
+  (1, 2),
+  (2, 3),
+  (3, 4);
+
+-- Step 11: Display the data
+SELECT * FROM customer12;
+SELECT * FROM orders;
+SELECT * FROM product;
+SELECT * FROM order_item;
+
+
+select * from customer12 join orders on customer12.id = orders.id;
+#In your table structure:
+
+#customer12.id is the Customer ID (primary key in customer12)
+
+#orders.id is the Order ID (primary key in orders)
+
+#These should not be equal — because:
+
+#orders.cust_id is the one that refers to customer12.id (as a foreign key)
+# correct Joins below
+
+select * from customer12 as c1 join orders as o on c1.id = o.id;
+select * from customer12 as c2 join product as p on c2.id = p.id;
+
+# How many customers do we have with orders1
+select count(*) from customer12 as c join orders as o1 on o1.id = c.id;
+
+#The SQL keyword DISTINCT is used to remove duplicate rows from the result of a SELECT query.
+select count (DISTINCT customer12.id) from customer12 join orders on customer12.id = orders.id;
+
+describe customer12;
+insert into customer12(names, address) values ('M1', 'ooty'), ('M2', 'Tamil Nadu'), ('M3', 'Punjab');
+
+select * from customer12 as c1 left join orders as o1 on c1.id = o1.id;
+
+select * from customer12 as c1 left join orders as o1 on c1.id = o1.cust_id is not null;
+
+select * from customer12 left join orders on customer12.id = orders.cust_id is null;
+
+describe product;
+
+select * from customer12 right join product on customer12.id = product.id;
+
+select * from product right join customer12 on product.id= customer12.id is null;
+
+#amount per ORDER
+use testing;
+
+CREATE TABLE order_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id INT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT NOT NULL,
+  price DECIMAL(10,2) NOT NULL
+);
+
+INSERT INTO order_items (order_id, product_id, quantity, price)
+VALUES 
+  (1, 101, 2, 5000.87),
+  (1, 102, 1, 10000.655),
+  (2, 101, 3, 5000.65),
+  (3, 103, 1, 20000.54);
+  
+  
+SELECT order_id, sum(price * quantity) as amount_per_order from order_items group by order_id; 
+
+
+describe orders;
+

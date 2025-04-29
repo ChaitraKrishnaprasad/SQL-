@@ -1,0 +1,21 @@
+use testing;
+show TABLE;
+
+Create TABLE Product (
+  id int(11) not null Auto_increment,
+  name varchar(255),
+  price bigint,
+  primary key(id)
+);
+
+
+insert into Product (name, price) values('Python','10000'),('Java','20000'),('Selenium','5000'),('API','10000'),('SQL','23466'),
+('DB','10040');
+
+select * from Product;
+
+select * from product where price>10000;
+
+select * from product order by price desc limit 1;
+select * from product order by price asc;
+select * from product order by price desc;

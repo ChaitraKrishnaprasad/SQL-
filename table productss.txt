@@ -1,0 +1,18 @@
+use chaitradb;
+
+show tables;
+
+create table `productss`(
+    id int(11) not null auto_increment,
+    name varchar(255) unique,
+    price decimal(10,2) not null,
+    primary key(id)
+);
+
+insert into productss(name, price) values ('ATB', 100.003), ('JAVA', 234.12), ('Python', 23.763);
+
+select *from productss;
+
+select sum(price) from productss ;
+
+select 
