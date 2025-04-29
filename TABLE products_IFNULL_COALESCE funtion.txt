@@ -1,0 +1,27 @@
+Use Testing;
+
+CREATE TABLE products (
+    productID INT PRIMARY KEY,
+    productName VARCHAR(100),
+    UnitPrice DECIMAL(10, 2),
+    UnitsInStock INT,
+    UnitsOnOrder INT
+);
+
+
+INSERT INTO products (productID, productName, UnitPrice, UnitsInStock, UnitsOnOrder) VALUES
+(1, 'Pen', 10.00, 100, 20),
+(2, 'Notebook', 50.00, 200, NULL),
+(3, 'Pencil', 5.00, 300, 50),
+(4, 'Eraser', 3.00, 150, NULL);
+
+select * from products;
+
+#ifnull function, returns alterative value if an expression is Null
+
+SELECT productName, UnitPrice * (UnitsInStock + IFNULL(UnitsOnOrder, 0)) AS TotalPotentialValue FROM products;
+
+
+select productName, UnitPrice * (UnitsInStock + IFNULL(UnitsOnOrder, 0)) as TotalPotential from products;
+
+select productName, UnitPrice * (UnitsInStock + Coalesce(UnitsOnOrder, 0)) as TotalPotential from products;

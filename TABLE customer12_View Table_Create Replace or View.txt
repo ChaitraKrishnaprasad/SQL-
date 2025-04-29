@@ -1,0 +1,24 @@
+use testing;
+
+CREATE TABLE `customer12` ( 
+  `id` INT AUTO_INCREMENT NOT NULL,
+  `names` VARCHAR(300)not NULL,
+  `address` VARCHAR(1000) not NULL,
+   PRIMARY KEY (`id`)
+);
+
+Insert into customer12 (names, address) values ('A1', 'Bangalore'), ('A2', 'Mysore'), ('A3', 'Shimoga'), ('A4', 'Mangalore'), ('A5', 'Bangalore');
+
+
+select * from customer12;
+
+
+# view table format
+
+create view ign5 as select names from customer12 where id <=5;
+
+select * from ign5;
+
+# already created need to replace the name of view TABLE
+ 
+ create or replace view ign5 as select * from customer12 where id<=5;
